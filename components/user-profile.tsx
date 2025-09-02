@@ -4,13 +4,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Settings, LogOut } from "lucide-react"
 import { useAuth } from "./auth-provider"
-import { signOut } from "firebase/auth"
-import { auth } from "@/lib/firebase"
+import { signOut, getAuth } from "firebase/auth"
+import { app } from "@/lib/firebase"
 import { useRouter } from "next/navigation"
 
 export function UserProfile() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const auth = getAuth(app);
 
   const handleLogout = async () => {
     try {

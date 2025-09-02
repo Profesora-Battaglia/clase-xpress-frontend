@@ -24,17 +24,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     console.log("useEffect in AuthProvider running");
     console.log("Firebase App instance:", app);
-    try {
-      const firebaseAuth = getAuth(app);
-      console.log("Firebase Auth instance:", firebaseAuth);
+    console.log("getAuth function:", getAuth);
+    console.log("onAuthStateChanged function:", onAuthStateChanged);
+
+    const firebaseAuth = getAuth(app);
+    console.log("Firebase Auth instance:", firebaseAuth);
+
+    if (firebaseAuth) {
       const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
         setUser(user);
         setLoading(false);
       });
 
       return () => unsubscribe();
-    } catch (error) {
-      console.error("Error in AuthProvider useEffect:", error);
+    } else {
+      console.error("firebaseAuth is undefined or null. Cannot set up auth state listener.");
     }
   }, []);
 
